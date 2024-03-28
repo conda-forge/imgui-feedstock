@@ -8,6 +8,18 @@ if(APPLE)
     enable_language(OBJCXX)
 endif()
 
+if(MSVC AND BUILD_SHARED_LIBS)
+    # imgui supports visibility flags with the IMGUI_API macro defined, 
+    # that is supposed to be manually defined in imconfig.h
+    # As imconfig.h is empty (just contains commented out definitions)
+    # we just generate the visibility headers in the imconfig.h header, and then we install that one
+    include(GenerateExportHeader)
+    generate_export_header(${PROJECT_NAME}
+        EXPORT_MACRO_NAME IMGUI_API
+        EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/imconfig.h
+    )
+endif()
+
 add_library(${PROJECT_NAME} "")
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 target_include_directories(

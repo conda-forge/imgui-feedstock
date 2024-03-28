@@ -10,7 +10,7 @@ elif [[ "${target_platform}" == linux* ]]; then
     OSX_BINDINGS=OFF
 fi
 
-cmake ${SRC_DIR} ${CMAKE_ARGS} \
+cmake ${SRC_DIR} ${CMAKE_ARGS} -GNinja \
     -DBUILD_SHARED_LIBS=ON \
     -DIMGUI_BUILD_GLFW_BINDING=ON \
     -DIMGUI_BUILD_GLUT_BINDING=OFF \
