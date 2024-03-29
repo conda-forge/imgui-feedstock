@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(imgui CXX)
 
 set(CMAKE_DEBUG_POSTFIX d)
+include(GNUInstallDirs)
 
 if(APPLE)
     set(CMAKE_CXX_STANDARD 11)
@@ -160,18 +161,12 @@ list(REMOVE_DUPLICATES BINDINGS_SOURCES)
 install(
     TARGETS ${PROJECT_NAME}
     EXPORT ${PROJECT_NAME}_target
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    RUNTIME DESTINATION bin
 )
 
 foreach(BINDING_TARGET ${BINDING_TARGETS})
     install(
         TARGETS ${BINDING_TARGET}
         EXPORT ${PROJECT_NAME}_target
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib
-        RUNTIME DESTINATION bin
     )
 endforeach()
 
