@@ -12,8 +12,7 @@ source:
   - path: imgui-config.cmake.in
 
 build:
-  number: 1
-  skip: true  # [win]
+  number: 2
   run_exports:
     - {{ pin_subpackage('imgui', max_pin='x.x.x') }}
 
@@ -22,7 +21,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
-    - make
+    - ninja
     # x11 stuff
     - {{ cdt('mesa-libgl') }}        # [linux]
     - {{ cdt('mesa-libgl-devel') }}  # [unix and not arm64]
@@ -48,7 +47,12 @@ test:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
-    - make
+    - make  # [not win]
+    - ninja  # [win]
+  commands:
+    - test -f $PREFIX/lib/libimgui${SHLIB_EXT}  # [unix]
+    - if not exist %LIBRARY_PREFIX%\lib\imgui.lib exit 1  # [win]
+    - if not exist %LIBRARY_PREFIX%\bin\imgui.dll exit 1  # [win]
 
 about:
   home: https://github.com/ocornut/imgui
@@ -59,3 +63,4 @@ about:
 extra:
   recipe-maintainers:
     - Tobias-Fischer
+    - traversaro

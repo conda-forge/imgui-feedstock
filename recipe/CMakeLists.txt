@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(imgui CXX)
 
 set(CMAKE_DEBUG_POSTFIX d)
+include(GNUInstallDirs)
 
 if(APPLE)
     set(CMAKE_CXX_STANDARD 11)
@@ -29,6 +30,18 @@ target_sources(
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
+
+if(MSVC AND BUILD_SHARED_LIBS)
+    # imgui supports visibility flags with the IMGUI_API macro defined, 
+    # that is supposed to be manually defined in imconfig.h
+    # As imconfig.h is empty (just contains commented out definitions)
+    # we just generate the visibility headers in the imconfig.h header, and then we install that one
+    include(GenerateExportHeader)
+    generate_export_header(${PROJECT_NAME}
+        EXPORT_MACRO_NAME IMGUI_API
+        EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/imconfig.h
+    )
+endif()
 
 if(IMGUI_BUILD_ALLEGRO5_BINDING)
     find_package(Allegro CONFIG REQUIRED)
@@ -80,11 +93,20 @@ if(IMGUI_BUILD_OPENGL2_BINDING)
     target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/backends/imgui_impl_opengl2.cpp)
     if(APPLE)
         target_link_libraries(${PROJECT_NAME} PUBLIC "-framework OpenGL")
+    else()
+        find_package(OpenGL REQUIRED)
+        target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL)
     endif()
 endif()
 
 if(IMGUI_BUILD_OPENGL3_BINDING)
     target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp)
+    if(APPLE)
+        target_link_libraries(${PROJECT_NAME} PUBLIC "-framework OpenGL")
+    else()
+        find_package(OpenGL REQUIRED)
+        target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL)
+    endif()
 endif()
 
 if(IMGUI_BUILD_OSX_BINDING)
@@ -139,18 +161,12 @@ list(REMOVE_DUPLICATES BINDINGS_SOURCES)
 install(
     TARGETS ${PROJECT_NAME}
     EXPORT ${PROJECT_NAME}_target
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    RUNTIME DESTINATION bin
 )
 
 foreach(BINDING_TARGET ${BINDING_TARGETS})
     install(
         TARGETS ${BINDING_TARGET}
         EXPORT ${PROJECT_NAME}_target
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib
-        RUNTIME DESTINATION bin
     )
 endforeach()
 
