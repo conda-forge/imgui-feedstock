@@ -1,5 +1,5 @@
 {% set name = "imgui" %}
-{% set version = "1.91.4" %}
+{% set version = "1.91.5" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   - url: https://github.com/ocornut/{{ name }}/archive/v{{ version }}.tar.gz
-    sha256: a455c28d987c78ddf56aab98ce0ff0fda791a23a2ec88ade46dd106b837f0923
+    sha256: 2aa2d169c569368439e5d5667e0796d09ca5cc6432965ce082e516937d7db254
   - path: CMakeLists.txt
   - path: imgui-config.cmake.in
 
