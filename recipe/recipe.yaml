@@ -1,0 +1,63 @@
+context:
+  name: imgui
+  version: 1.91.6
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  - url: https://github.com/ocornut/${{ name }}/archive/v${{ version }}.tar.gz
+    sha256: c5fbc5dcab1d46064001c3b84d7a88812985cde7e0e9ced03f5677bec1ba502a
+  - path: CMakeLists.txt
+  - path: imgui-config.cmake.in
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - cmake
+    - ninja
+  host:
+    - if: linux
+      then: libgl-devel
+    - glfw
+    - sdl2
+  run_exports:
+    - ${{ pin_subpackage('imgui', upper_bound='x.x.x') }}
+
+tests:
+  - files:
+      recipe:
+        - test/
+    requirements:
+      run:
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+        - cmake
+        - if: not win
+          then: make
+        - if: win
+          then: ninja
+    script:
+      - if: unix
+        then: test -f $PREFIX/lib/libimgui${SHLIB_EXT}
+      - if: win
+        then: if not exist %LIBRARY_PREFIX%\lib\imgui.lib exit 1
+      - if: win
+        then: if not exist %LIBRARY_PREFIX%\bin\imgui.dll exit 1
+
+about:
+  summary: ImGui is a bloat-free graphical user interface library for C++. It outputs optimized vertex buffers that you can render anytime in your 3D-pipeline-enabled application.
+  license: MIT
+  license_file: LICENSE.txt
+  homepage: https://github.com/ocornut/imgui
+
+extra:
+  recipe-maintainers:
+    - Tobias-Fischer
+    - traversaro
