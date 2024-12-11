@@ -23,22 +23,10 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake
     - ninja
-    # x11 stuff
-    - {{ cdt('mesa-libgl') }}        # [linux]
-    - {{ cdt('mesa-libgl-devel') }}  # [unix and not arm64]
-    - {{ cdt('mesa-dri-drivers') }}  # [unix and not arm64]
-    - {{ cdt('libselinux') }}        # [linux]
-    - {{ cdt('libxcb') }}            # [linux]
-    - {{ cdt('libxdamage') }}        # [linux]
-    - {{ cdt('libxfixes') }}         # [linux]
-    - {{ cdt('libxxf86vm') }}        # [linux]
-    - {{ cdt('libxext') }}           # [linux]
-    - {{ cdt('libxau') }}            # [linux]
-    - {{ cdt('expat-devel') }}       # [linux]
   host:
+    - libgl-devel  # [linux]
     - glfw
     - sdl2
-  run:
 
 test:
   files:
