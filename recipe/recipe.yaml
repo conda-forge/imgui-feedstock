@@ -48,10 +48,10 @@ tests:
       - if: unix
         then:
           - test -f $PREFIX/lib/libimgui${SHLIB_EXT}
-          - bash ${{ RECIPE_DIR }}/run_test.sh
+          - bash ${{ PREFIX }}/info/recipe/run_test.sh
       - if: win
         then: 
-         - ${{ RECIPE_DIR }}/run_test.bat
+         - ${{ PREFIX }}/info/recipe/run_test.bat
          - if not exist %LIBRARY_LIB%\imgui.lib exit 1
          - if not exist %LIBRARY_BIN%\imgui.dll exit 1
 
