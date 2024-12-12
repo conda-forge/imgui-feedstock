@@ -37,6 +37,7 @@ tests:
     requirements:
       run:
         - ${{ compiler('c') }}
+        - ${{ stdlib("c") }}
         - ${{ compiler('cxx') }}
         - cmake
         - if: not win
@@ -47,9 +48,9 @@ tests:
       - if: unix
         then: test -f $PREFIX/lib/libimgui${SHLIB_EXT}
       - if: win
-        then: if not exist %LIBRARY_PREFIX%\lib\imgui.lib exit 1
+        then: if not exist %LIBRARY_PREFIX%\lib\imgui.lib exit 2
       - if: win
-        then: if not exist %LIBRARY_PREFIX%\bin\imgui.dll exit 1
+        then: if not exist %LIBRARY_PREFIX%\bin\imgui.dll exit 2
 
 about:
   summary: ImGui is a bloat-free graphical user interface library for C++. It outputs optimized vertex buffers that you can render anytime in your 3D-pipeline-enabled application.
