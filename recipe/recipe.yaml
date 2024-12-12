@@ -31,29 +31,20 @@ requirements:
     - ${{ pin_subpackage('imgui', upper_bound='x.x.x') }}
 
 tests:
+  - package_contents:
+      lib:
+        - imgui
   - files:
       recipe:
         - test/
     requirements:
       run:
+        - ${{ stdlib('c') }}
         - ${{ compiler('c') }}
-        - ${{ stdlib("c") }}
         - ${{ compiler('cxx') }}
         - cmake
-        - if: not win
-          then: make
-        - if: win
-          then: ninja
-    script:
-      - if: unix
-        then:
-          - test -f $PREFIX/lib/libimgui${SHLIB_EXT}
-          # - bash ${{ PREFIX }}/info/recipe/run_test.sh
-      - if: win
-        then: 
-         # - ${{ PREFIX }}/info/recipe/run_test.bat
-         - if not exist %LIBRARY_LIB%\imgui.lib exit 1
-         - if not exist %LIBRARY_BIN%\imgui.dll exit 1
+        - ninja
+    script: run_test
 
 about:
   summary: ImGui is a bloat-free graphical user interface library for C++. It outputs optimized vertex buffers that you can render anytime in your 3D-pipeline-enabled application.
