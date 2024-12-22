@@ -46,6 +46,8 @@ tests:
         - ${{ compiler('cxx') }}
         - cmake
         - ninja
+        - libvulkan-loader
+        - libvulkan-headers
     script: run_test
 
 about:
