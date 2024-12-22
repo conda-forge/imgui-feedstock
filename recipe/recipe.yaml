@@ -13,7 +13,7 @@ source:
   - path: imgui-config.cmake.in
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -27,6 +27,8 @@ requirements:
       then: libgl-devel
     - glfw
     - sdl2
+    - vulkan-tools
+    - vulkan-headers
   run_exports:
     - ${{ pin_subpackage('imgui', upper_bound='x.x.x') }}
 
@@ -44,6 +46,8 @@ tests:
         - ${{ compiler('cxx') }}
         - cmake
         - ninja
+        - vulkan-tools
+        - vulkan-headers
     script: run_test
 
 about:
