@@ -8,8 +8,11 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_:
-        CONFIG: win_64_
+      win_64_imgui_variantdefault:
+        CONFIG: win_64_imgui_variantdefault
+        UPLOAD_PACKAGES: 'True'
+      win_64_imgui_variantdocking:
+        CONFIG: win_64_imgui_variantdocking
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables:
