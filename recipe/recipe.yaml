@@ -1,19 +1,27 @@
 context:
   name: imgui
   version: "1.91.8"
+  build_number: 0
+  docking: ${{ "true" if imgui_variant == "docking" else "false" }}
 
 package:
   name: ${{ name|lower }}
   version: ${{ version }}
 
 source:
-  - url: https://github.com/ocornut/${{ name }}/archive/v${{ version }}.tar.gz
-    sha256: db3a2e02bfd6c269adf0968950573053d002f40bdfb9ef2e4a90bce804b0f286
+  - if: docking == "true"
+    then:
+    - url: https://github.com/ocornut/${{ name }}/archive/v${{ version }}-docking.tar.gz
+      sha256: 55f5e65abea635f2a8bfa9a92cd966448a363a262cf6dead7cc662fb0ab37612
+    else:
+    - url: https://github.com/ocornut/${{ name }}/archive/v${{ version }}.tar.gz
+      sha256: db3a2e02bfd6c269adf0968950573053d002f40bdfb9ef2e4a90bce804b0f286
   - path: CMakeLists.txt
   - path: imgui-config.cmake.in
 
 build:
-  number: 0
+  number: ${{ build_number }}
+  string: ${{ "docking_" if imgui_variant == "docking" }}h${{ hash }}_${{ build_number }}
 
 requirements:
   build:
