@@ -1,7 +1,7 @@
 context:
   name: imgui
   version: "1.91.8"
-  build_number: 0
+  build_number: 1
   docking: ${{ "true" if imgui_variant == "docking" else "false" }}
 
 package:
