@@ -21,6 +21,9 @@ source:
 
 build:
   number: ${{ build_number }}
+  variant:
+    # down-prioritize the docking variant versus default
+    down_prioritize_variant: ${{ 1 if imgui_variant == "docking" else 0 }}      
   string: ${{ "docking_" if imgui_variant == "docking" }}h${{ hash }}_${{ build_number }}
 
 requirements:
