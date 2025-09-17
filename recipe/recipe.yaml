@@ -1,6 +1,6 @@
 context:
   name: imgui
-  version: "1.92.2"
+  version: "1.92.3"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   - url: https://github.com/ocornut/${{ name }}/archive/v${{ version }}.tar.gz
-    sha256: 994aad785a0aa572538d909b923bf0a64e7bfe5ab3360d8ae0e397c6bb312c04
+    sha256: 9212ee7c4718b1466a5d99e64bce3ef1965704afea4ba651f8d978d0791b7c7c
   - path: CMakeLists.txt
   - path: imgui-config.cmake.in
 
