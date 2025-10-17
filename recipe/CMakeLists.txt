@@ -67,6 +67,9 @@ endif()
 
 if(IMGUI_BUILD_DX12_BINDING)
     target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/backends/imgui_impl_dx12.cpp)
+    if(WIN32)
+        target_link_libraries(${PROJECT_NAME} PRIVATE dxgi.lib)
+    endif()
 endif()
 
 if(IMGUI_BUILD_GLFW_BINDING)
